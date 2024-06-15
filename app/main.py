@@ -17,9 +17,9 @@ def main():
             if path=="/":
                 connection.sendall(b"HTTP/1.1 200 OK\r\n\r\n")
 
-            elif "/echo/" in path:
-                str=path[(len(path)-6):]
-                response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(str)-1}\r\n\r\n{str}".encode()
+            elif path.startswith("/echo/"):
+                e_str=path[(len("/echo/")):]
+                response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(e_str)}\r\n\r\n{e_str}".encode()
 
             
             else:
