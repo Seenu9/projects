@@ -12,11 +12,19 @@ def main():
             if not data:
                 break
             request=data.decode().split("\r\n")
-            request_line=request[0].split(" ")[1]           
-            if request_line=="/":
+            path=request[0].split(" ")[1] 
+            response=b"HTTP/1.1 404 Not Found\r\n\r\n"          
+            if path=="/":
                 connection.sendall(b"HTTP/1.1 200 OK\r\n\r\n")
+
+            elif "/echo/" in path:
+                str=path[(len(path)-6):]
+                response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(str)}\r\n\r\n{str}".encode()
+
+            
             else:
-                connection.sendall(b"HTTP/1.1 404 Not Found\r\n\r\n")
+                response=b"HTTP/1.1 404 Not Found\r\n\r\n"
+            connection.sendall(response)
             connection.close()
 
 
