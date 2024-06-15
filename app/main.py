@@ -1,5 +1,6 @@
 
 import socket
+import sys
 
 
 def main():
@@ -23,7 +24,16 @@ def main():
             elif path.startswith("/user-agent"):
                 useragent=request[2].split(": ")[1]
                 response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(useragent)}\r\n\r\n{useragent}".encode()
-            
+            elif path.startswith("/files"):
+                directory=sys.argv[2]
+                filename=path[len("/files"):]
+                try:
+                    with open(f"/{directory}/{filename}","r") as f:
+                        body=f.read()
+                        response = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(body)}\r\n\r\n{body}".encode()
+                except Exception as e:
+                   response = f"HTTP/1.1 404 Not Found\r\n\r\n".encode()
+                  
             else:
                 response=b"HTTP/1.1 404 Not Found\r\n\r\n"
             connection.sendall(response)
