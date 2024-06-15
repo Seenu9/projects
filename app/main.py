@@ -19,7 +19,7 @@ def main():
 
             elif "/echo/" in path:
                 str=path[(len(path)-6):]
-                response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(str)}\r\n\r\n{str}".encode()
+                response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(str)-1}\r\n\r\n{str}".encode()
 
             
             else:
