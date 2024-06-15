@@ -20,7 +20,7 @@ def main():
             elif path.startswith("/echo/"):
                 e_str=path[(len("/echo/")):]
                 response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(e_str)}\r\n\r\n{e_str}".encode()
-            elif path.startswith("/User-Agent"):
+            elif path.startswith("/user-agent"):
                 useragent=request[2].split(": ")[1]
                 response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(useragent)}\r\n\r\n{useragent}".encode()
             
