@@ -16,6 +16,7 @@ def main():
             path=request[0].split(" ")[1] 
             type=request[0].split(" ")[0]
             req_body=request[-1]
+            encoding=request[3].split(":")[1]
             response=b"HTTP/1.1 404 Not Found\r\n\r\n"
             if type.upper()=="GET" :
                 if path=="/":
@@ -23,7 +24,10 @@ def main():
 
                 elif path.startswith("/echo/"):
                     e_str=path[(len("/echo/")):]
-                    response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(e_str)}\r\n\r\n{e_str}".encode()
+                    if encoding=="gzip":
+                        response=f"HTTP/1.1 200 OK\r\nContent-Encoding: {encoding}\r\nContent-Type: text/plain\r\nContent-Length: {len(e_str)}\r\n\r\n{e_str}".encode()
+                    else:
+                        response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(e_str)}\r\n\r\n{e_str}".encode()
                 elif path.startswith("/user-agent"):
                     useragent=request[2].split(": ")[1]
                     response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(useragent)}\r\n\r\n{useragent}".encode()
@@ -35,7 +39,7 @@ def main():
                             body=f.read()
                             response = f"HTTP/1.1 200 OK\r\nContent-Type: application/octet-stream\r\nContent-Length: {len(body)}\r\n\r\n{body}".encode()
                     except Exception as e:
-                        response = f"HTTP/1.1 404 Not Found\r\n\r\n".encode()                  
+                        response = f"HTTP/1.1 404 Not Found\r\n\r\n".encode()
                 else:
                     response=b"HTTP/1.1 404 Not Found\r\n\r\n"
         
