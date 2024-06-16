@@ -25,7 +25,7 @@ def main():
                 elif path.startswith("/echo/"):
                     e_str=path[(len("/echo/")):]
                     if encoding=="gzip":
-                        response=f"HTTP/1.1 200 OK\r\nContent-Encoding: {encoding}\r\nContent-Type: text/plain\r\nContent-Length: {len(e_str)}\r\n\r\n{e_str}".encode()
+                        response=f"HTTP/1.1 200 OK\r\nContent-Encoding: {encoding}\r\nContent-Type: text/plain\r\nContent-Length: {len(e_str)}\r\n\r\n{e_str}".encode()                
                     else:
                         response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(e_str)}\r\n\r\n{e_str}".encode()
                 elif path.startswith("/user-agent"):
