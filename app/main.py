@@ -16,7 +16,7 @@ def main():
             path=request[0].split(" ")[1] 
             type=request[0].split(" ")[0]
             req_body=request[-1]
-            encoding=request[3].split(":")[1]
+            encoding=request[2].split(":")[1]
             response=b"HTTP/1.1 404 Not Found\r\n\r\n"
             if type.upper()=="GET" :
                 if path=="/":
