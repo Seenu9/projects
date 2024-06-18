@@ -16,10 +16,10 @@ def main():
             path=request[0].split(" ")[1] 
             type=request[0].split(" ")[0]
             req_body=request[-1]
-            encoding = None
+            encoding =[]
             for line in request:
                 if line.lower().startswith("accept-encoding:"):
-                    encoding = line.split(":")[1].strip()
+                    encoding =[e.strip() for e in line.split(":")[1].split(",")]
             response=b"HTTP/1.1 404 Not Found\r\n\r\n"
             if type.upper()=="GET" :
                 if path=="/":
@@ -27,8 +27,8 @@ def main():
 
                 elif path.startswith("/echo/"):
                     e_str=path[(len("/echo/")):]
-                    if encoding=="gzip":
-                        response=f"HTTP/1.1 200 OK\r\nContent-Encoding: {encoding}\r\nContent-Type: text/plain\r\nContent-Length: {len(e_str)}\r\n\r\n{e_str}".encode()                
+                    if "gzip" in encoding:
+                        response=f"HTTP/1.1 200 OK\r\nContent-Encoding: {gzip}\r\nContent-Type: text/plain\r\nContent-Length: {len(e_str)}\r\n\r\n{e_str}".encode()                
                     else:
                         response=f"HTTP/1.1 200 OK\r\nContent-Type: text/plain\r\nContent-Length: {len(e_str)}\r\n\r\n{e_str}".encode()
                 elif path.startswith("/user-agent"):
