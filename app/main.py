@@ -34,8 +34,7 @@ def main():
 
                 elif path.startswith("/echo/"):
                     e_str=path[(len("/echo/")):]
-                    e_str_comprssed=compress(e_str)
-                    hexdeci=binascii.hexlify(e_str_comprssed).decode()
+                    e_str_comprssed=str(compress(e_str)).split("'")[1]                    
                     if "gzip" in encoding:
                         response=f"HTTP/1.1 200 OK\r\nContent-Encoding: gzip\r\nContent-Type: text/plain\r\nContent-Length: {len(e_str_comprssed)}\r\n\r\n{hexdeci}".encode()                
                     else:
